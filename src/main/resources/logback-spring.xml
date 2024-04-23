@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <property name="LOGS_PATH" value="./logs/" />
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <Pattern>
+                %d{yyyyMMddHHmmss}￥ %level ￥%X{requestURI}￥%X{requestId}￥%X{userEmail}§%msg%n
+            </Pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+    <appender name="S3-STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <Pattern>
+                %d{yyyyMMddHHmmss}￥ %level ￥%X{fileName}§%msg%n
+            </Pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+    <appender name="MAIL-STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <Pattern>
+                %d{yyyyMMddHHmmss}￥ %level ￥%X{mailType}￥%X{targetEmail}§%msg%n
+            </Pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+
+    <appender name="BASIC" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOGS_PATH}/jukebox_info.log</file>
+        <append>true</append>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOGS_PATH}/jukebox_info.%d{yyyyMMddHH}.log</fileNamePattern>
+            <maxHistory>720</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{yyyyMMddHHmmss}￥ %level ￥%X{requestURI}￥%X{requestId}￥%X{userEmail}§%msg%n</pattern>
+        </encoder>
+    </appender>
+    <appender name="S3" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOGS_PATH}/jukebox_s3.log</file>
+        <append>true</append>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOGS_PATH}/jukebox_s3.%d{yyyyMMddHH}.log</fileNamePattern>
+            <maxHistory>720</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{yyyyMMddHHmmss}￥ %level ￥%X{fileName}§%msg%n</pattern>
+        </encoder>
+    </appender>
+    <appender name="MAIL" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOGS_PATH}/jukebox_mail.log</file>
+        <append>true</append>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOGS_PATH}/jukebox_mail.%d{yyyyMMddHH}.log</fileNamePattern>
+            <maxHistory>720</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{yyyyMMddHHmmss}￥ %level ￥%X{mailType}￥%X{targetEmail}§%msg%n</pattern>
+        </encoder>
+    </appender>
+    <appender name="ERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOGS_PATH}/jukebox_error.log</file>
+        <append>true</append>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOGS_PATH}/jukebox_error.%d{yyyyMMddHH}.log</fileNamePattern>
+            <maxHistory>720</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{yyyyMMddHHmmss}￥ %level ￥%X{requestURI}￥%X{requestId}￥%X{userEmail}§%msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="SPRING" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOGS_PATH}/jukebox_spring.log</file>
+        <append>true</append>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOGS_PATH}/jukebox_spring.%d{yyyyMMddHH}.log</fileNamePattern>
+            <maxHistory>720</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{yyyyMMddHHmmss}￥ %level ￥%X{requestURI}￥%X{requestId}￥%X{userEmail}§%msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="ACCESS" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOGS_PATH}/jukebox_acc.log</file>
+        <append>true</append>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOGS_PATH}/skadaptor_acc.%d{yyyyMMddHH}.log</fileNamePattern>
+            <maxHistory>720</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{yyyyMMddHHmmss}￥ %level ￥%X{requestURI}￥%X{requestId}￥%X{userEmail}￥%X{status}%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="STATIC" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOGS_PATH}/jukebox_static.log</file>
+        <append>true</append>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOGS_PATH}/jukebox_static.%d{yyyyMMddHH}.log</fileNamePattern>
+            <maxHistory>720</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <logger name="com.manil.dailywise" level="INFO" additivity="false">
+        <appender-ref ref="STDOUT" />
+    </logger>
+    <logger name="com.manil.dailywise.service.S3UploadService" level="INFO" additivity="false">
+        <appender-ref ref="S3-STDOUT" />
+    </logger>
+    <logger name="com.manil.dailywise.util.MailUtil" level="INFO" additivity="false">
+        <appender-ref ref="MAIL-STDOUT" />
+    </logger>
+    <logger name="com.manil.dailywise.dcontroller.interceptor.ApiInterceptor" level="INFO" additivity="false">
+        <appender-ref ref="STDOUT" />
+    </logger>
+    <logger name="com.manil.dailywise.controller.ExceptionController" level="INFO" additivity="false">
+        <appender-ref ref="STDOUT" />
+    </logger>
+    <logger name="com.manil.dailywise.util.StaticLogUtil" level="INFO" additivity="false">
+        <appender-ref ref="STATIC" />
+    </logger>
+    <root level="INFO">
+        <appender-ref ref="STDOUT" />
+    </root>
+
+    <springProfile name="build">
+        <logger name="com.manil.dailywise" level="INFO" additivity="false">
+            <appender-ref ref="STDOUT" />
+        </logger>
+        <logger name="com.manil.dailywise.service.S3UploadService" level="INFO" additivity="false">
+            <appender-ref ref="S3-STDOUT" />
+        </logger>
+        <logger name="com.manil.dailywise.util.MailUtil" level="INFO" additivity="false">
+            <appender-ref ref="MAIL-STDOUT" />
+        </logger>
+        <logger name="com.manil.dailywise.controller.interceptor.ApiInterceptor" level="INFO" additivity="false">
+            <appender-ref ref="STDOUT" />
+        </logger>
+        <logger name="com.manil.dailywise.controller.ExceptionController" level="INFO" additivity="false">
+            <appender-ref ref="STDOUT" />
+        </logger>
+        <root level="INFO">
+            <appender-ref ref="STDOUT" />
+        </root>
+    </springProfile>
+
+    <springProfile name="dev">
+        <logger name="com.manil.dailywise" level="INFO" additivity="false">
+            <appender-ref ref="BASIC" />
+        </logger>
+        <logger name="com.manil.dailywise.service.S3UploadService" level="INFO" additivity="false">
+            <appender-ref ref="S3" />
+        </logger>
+        <logger name="com.manil.dailywise.util.MailUtil" level="INFO" additivity="false">
+            <appender-ref ref="MAIL" />
+        </logger>
+        <logger name="com.manil.dailywise.controller.interceptor.ApiInterceptor" level="INFO" additivity="false">
+            <appender-ref ref="ACCESS" />
+        </logger>
+        <logger name="com.manil.dailywise.controller.ExceptionController" level="INFO" additivity="false">
+            <appender-ref ref="ERROR" />
+        </logger>
+        <root level="INFO">
+            <appender-ref ref="SPRING" />
+        </root>
+    </springProfile>
+
+    <springProfile name="stg">
+        <logger name="com.manil.dailywise" level="INFO" additivity="false">
+            <appender-ref ref="BASIC" />
+        </logger>
+        <logger name="com.manil.dailywise.service.S3UploadService" level="INFO" additivity="false">
+            <appender-ref ref="S3" />
+        </logger>
+        <logger name="com.manil.dailywise.util.MailUtil" level="INFO" additivity="false">
+            <appender-ref ref="MAIL" />
+        </logger>
+        <logger name="com.manil.dailywise.controller.interceptor.ApiInterceptor" level="INFO" additivity="false">
+            <appender-ref ref="ACCESS" />
+        </logger>
+        <logger name="com.manil.dailywise.controller.ExceptionController" level="INFO" additivity="false">
+            <appender-ref ref="ERROR" />
+        </logger>
+        <root level="INFO">
+            <appender-ref ref="SPRING" />
+        </root>
+    </springProfile>
+
+    <springProfile name="prd">
+        <logger name="com.manil.dailywise" level="INFO" additivity="false">
+            <appender-ref ref="BASIC" />
+        </logger>
+        <logger name="com.manil.dailywise.service.S3UploadService" level="INFO" additivity="false">
+            <appender-ref ref="S3" />
+        </logger>
+        <logger name="com.manil.dailywise.util.MailUtil" level="INFO" additivity="false">
+            <appender-ref ref="MAIL" />
+        </logger>
+        <logger name="com.manil.dailywise.controller.interceptor.ApiInterceptor" level="INFO" additivity="false">
+            <appender-ref ref="ACCESS" />
+        </logger>
+        <logger name="com.manil.dailywise.controller.ExceptionController" level="INFO" additivity="false">
+            <appender-ref ref="ERROR" />
+        </logger>
+        <root level="INFO">
+            <appender-ref ref="SPRING" />
+        </root>
+    </springProfile>
+</configuration>

@@ -1,0 +1,97 @@
+spring:
+  datasource:
+    platform: mariadb
+    driverClassName: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb:failover://free-tier-rds.cxommayiuphh.ap-northeast-2.rds.amazonaws.com:3306/daily-wise?autoReconnect=true
+    username: admin
+    password: Manil1!!
+    timeBetweenEvictionRunsMillis: 1000
+    testWhileIdle: true
+    validationQuery: SELECT 1
+
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: none
+      naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MariaDB102Dialect
+
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 10MB
+login:
+  auth:
+    tokenSecret: 926D96C90030DD58429D2751AC1BDBBC
+    tokenExpirationMsec: 2592000000
+    #tokenExpirationMsec: 100000
+    kakao:
+      clientId: 963e8a3c91e699ef4f9d4bddbb8bead0
+      tokenUri: http://localhost:8080/user/auth/kakao/token
+      callbackUri: http://localhost:3000/login
+
+server:
+  port: 8080
+  servlet:
+    context-path: /
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+
+upload:
+  path: /Users/namdonghyeon/Desktop/files/
+
+logging:
+  level:
+    web: error
+
+---
+# 개발용
+spring:
+  datasource:
+    platform: mariadb
+    driverClassName: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb:failover://free-tier-rds.cxommayiuphh.ap-northeast-2.rds.amazonaws.com:3306/daily-wise?autoReconnect=true
+    #    #url: jdbc:mariadb:failover://jukebox-mariadb:3306/jukebox?autoReconnect=true
+    username: admin
+    password: Manil1!!
+
+    timeBetweenEvictionRunsMillis: 1000
+    testWhileIdle: true
+    validationQuery: SELECT 1
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: none
+      naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MariaDB102Dialect
+    servlet:
+      multipart:
+        max-file-size: 5MB
+        max-request-size: 10MB
+  config:
+    activate:
+      on-profile: dev
+login:
+  auth:
+    tokenSecret: 926D96C90030DD58429D2751AC1BDBBC
+    tokenExpirationMsec: 2592000000
+    #tokenExpirationMsec: 100000
+
+server:
+  port: 8080
+  servlet:
+    context-path: /
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+
+upload:
+  path: /files/
+---

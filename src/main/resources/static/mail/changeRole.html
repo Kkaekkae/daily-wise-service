@@ -1,0 +1,163 @@
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>HTML Email Template</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style type="text/css">
+    /* GENERAL STYLE RESETS */
+    body {
+      width: 100% !important;
+      height: 100% !important;
+      margin: 0;
+      padding: 0;
+      background: #171717;
+      color: #fff;
+    }
+
+
+    img,
+    a img {
+      border: 0;
+      outline: none;
+      text-decoration: none;
+    }
+
+    .imageFix {
+      display: block;
+    }
+
+    table,
+    td {
+      border-collapse: collapse;
+    }
+
+    /* CLIENT-SPECIFIC RESETS */
+    /* Outlook.com(Hotmail)의 전체 너비 및 적절한 줄 높이를 허용 */
+    .ReadMsgBody {
+      width: 100%;
+    }
+
+    .ExternalClass {
+      width: 100%;
+    }
+
+    .ExternalClass,
+    .ExternalClass p,
+    .ExternalClass span,
+    .ExternalClass font,
+    .ExternalClass td,
+    .ExternalClass div {
+      line-height: 100%;
+    }
+
+    /* Outlook 2007 이상에서 Outlook이 추가하는 테이블 주위의 간격을 제거 */
+    table,
+    td {
+      mso-table-lspace: 0pt;
+      mso-table-rspace: 0pt;
+    }
+
+    /* Internet Explorer에서 크기가 조정된 이미지를 렌더링하는 방식을 수정 */
+    img {
+      -ms-interpolation-mode: bicubic;
+    }
+
+    /* Webkit 및 Windows 기반 클라이언트가 텍스트 크기를 자동으로 조정하지 않도록 수정 */
+    body,
+    table,
+    td,
+    p,
+    a,
+    li,
+    blockquote {
+      -ms-text-size-adjust: 100%;
+      -webkit-text-size-adjust: 100%;
+    }
+
+    table {
+      margin: 0 auto;
+    }
+
+    @media screen and (max-width: 450px) {
+
+      table.contents .h1-text {
+        font-size: 20px !important;
+      }
+
+      table.contents {
+        font-size: 12px !important;
+        width: 90% !important;
+      }
+
+      table.contents .button {
+        padding: 15px 25px !important;
+        font-size: 11px !important;
+      }
+
+      table.contents .footer p {
+        font-size: 10px !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- OUTERMOST CONTAINER TABLE -->
+  <table
+    style="width:100%; font-size: 16px;  height: 100% !important; margin: 0 ;  padding: 0;  background: #171717; color: #fff; font-size: 16px;">
+    <tr>
+      <td>
+        <table style="width: 450px; margin: 0 auto;" class="contents" border="0" cellpadding="0" cellspacing="0">
+          <tr>
+            <td class="logo" style="padding-top: 2em;">
+              <img src="https://jukebox.secondev.com/mail/logo.png" alt="BGMS" />
+            </td>
+          </tr>
+          <tr>
+            <td class="h1-text" style=" font-size: 30px; font-weight: 700;  padding: 1.5em 0; ">
+              {{nickname}}님, 축하합니다.<br/>
+              채널 매니저가 되셨어요!
+            </td>
+          </tr>
+          <tr>
+            <td class="h2-text" style=" font-weight: 700; padding: 1.5em 0 .8em;">
+              채널 이름
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <!-- 채널 이름 변수 -->
+              {{channelName}}
+            </td>
+          </tr>
+          <tr>
+            <td class="h2-text" style=" font-weight: 700; padding: 1.5em 0 .8em;">
+              변경된 등급
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <!-- 변경된 등급 변수 -->
+              {{changeRole}}
+            </td>
+          </tr>
+          <tr>
+            <td class="footer" style=" padding: 4em 0; color: #666;">
+              <p style="  margin: 0; padding-top: 10px; border-top: 1px solid #333;">
+                본 메일은 발신 전용 메일입니다.<br />
+                문의사항이 있을 경우 <a style="color:#666;" href="mailto:cs@secondspace.kr">cs@secondspace.kr</a>로 보내주세요.
+              </p>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+
+
+</body>
+
+</html>

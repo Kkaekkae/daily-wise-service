@@ -1,0 +1,124 @@
+image: wagnerstephan/bitbucket-git-ftp:latest
+
+pipelines:
+  branches:
+    dev:
+      - step:
+          name: Slack send start notification
+          image: php:7.1.1
+          script:
+            - curl -d "message=jukebox-backend%20$BITBUCKET_BRANCH%20브렌치%20배포%20시작&channel=C019C1Z7MA8" -X POST https://secondev.com/api/slack/sendSlack.php
+      - step:
+          name: Build maven package
+          image: maven:3-jdk-8
+          script:
+            - apt-get update
+            - apt-get install -y openjfx
+            - mvn package -Dspring.profiles.active=build
+          artifacts:
+            - target/**
+      - step:
+          name: Deploy with scp
+          caches:
+            - node
+          script:
+            - pipe: atlassian/sftp-deploy:0.5.6
+              variables:
+                USER: $DEV_SSH_USER
+                SERVER: $DEV_SSH_HOST
+                PASSWORD: $DEV_SSH_PASSWORD
+                REMOTE_PATH: $DEV_SSH_PATH
+                LOCAL_PATH: "target/*.jar"
+                DEBUG: "true"
+      - step:
+          name: Rerun Docker
+          script:
+            - apt-get update
+            - apt-get install sshpass
+            - sshpass -p $DEV_SSH_PASSWORD ssh $DEV_SSH_USER@$DEV_SSH_HOST "cd $DEV_SSH_PATH && ./patch-and-restart"
+
+      - step:
+          name: Slack send success notification
+          image: php:7.1.1
+          script:
+            - curl -d "message=jukebox-backend%20$BITBUCKET_BRANCH%20브렌치%20배포%20완료&channel=C019C1Z7MA8" -X POST https://secondev.com/api/slack/sendSlack.php
+    stage:
+      - step:
+          name: Slack send start notification
+          image: php:7.1.1
+          script:
+            - curl -d "message=jukebox-backend%20$BITBUCKET_BRANCH%20브렌치%20배포%20시작&channel=C019C1Z7MA8" -X POST https://secondev.com/api/slack/sendSlack.php
+      - step:
+          name: Build maven package
+          image: maven:3-jdk-8
+          script:
+            - apt-get update
+            - apt-get install -y openjfx
+            - mvn package -Dspring.profiles.active=build
+          artifacts:
+            - target/**
+      - step:
+          name: Deploy with scp
+          caches:
+            - node
+          script:
+            - pipe: atlassian/sftp-deploy:0.5.6
+              variables:
+                USER: $DEV_SSH_USER
+                SERVER: $DEV_SSH_HOST
+                PASSWORD: $DEV_SSH_PASSWORD
+                REMOTE_PATH: $STG_SSH_PATH
+                LOCAL_PATH: "target/*.jar"
+                DEBUG: "true"
+      - step:
+          name: Rerun Docker
+          script:
+            - apt-get update
+            - apt-get install sshpass
+            - sshpass -p $DEV_SSH_PASSWORD ssh $DEV_SSH_USER@$DEV_SSH_HOST "cd $STG_SSH_PATH && ./patch-and-restart"
+      - step:
+          name: Slack send success notification
+          image: php:7.1.1
+          script:
+            - curl -d "message=jukebox-backend%20$BITBUCKET_BRANCH%20브렌치%20배포%20완료&channel=C019C1Z7MA8" -X POST https://secondev.com/api/slack/sendSlack.php
+    master:
+      - step:
+          name: Slack send start notification
+          image: php:7.1.1
+          script:
+            - curl -d "message=jukebox-backend%20$BITBUCKET_BRANCH%20브렌치%20배포%20시작&channel=C019C1Z7MA8" -X POST https://secondev.com/api/slack/sendSlack.php
+      - step:
+          name: Build maven package
+          image: maven:3-jdk-8
+          script:
+            - apt-get update
+            - apt-get install -y openjfx
+            - mvn package -Dspring.profiles.active=build
+          artifacts:
+            - target/**
+      - step:
+          name: Deploy with scp
+          caches:
+            - node
+          script:
+            - pipe: atlassian/sftp-deploy:0.5.6
+              variables:
+                USER: $SSH_USER
+                SERVER: $SSH_HOST
+                REMOTE_PATH: $SSH_PATH
+                LOCAL_PATH: "target/*.jar"
+                DEBUG: "true"
+      - step:
+          name: Rerun Backend
+          script:
+            - pipe: atlassian/ssh-run:0.3.0
+              variables:
+                SSH_USER: $SSH_USER
+                SERVER: $SSH_HOST
+                COMMAND: "sudo service bgms restart"
+                DEBUG: "true"
+      - step:
+          name: Slack send success notification
+          image: php:7.1.1
+          script:
+            - curl -d "message=jukebox-backend%20$BITBUCKET_BRANCH%20브렌치%20배포%20완료&channel=C019C1Z7MA8" -X POST https://secondev.com/api/slack/sendSlack.php
